@@ -46,33 +46,34 @@ in `scripts/`. The backend serves example static HTML at `/` and exposes a tiny
 API route to prove end-to-end plumbing.
 
 Substeps:
-- [ ] Add `backend/pyproject.toml` (managed by `uv`): fastapi, uvicorn, httpx,
+- [x] Add `backend/pyproject.toml` (managed by `uv`): fastapi, uvicorn, httpx,
       openai (for OpenRouter), pytest, plus any dev tools.
-- [ ] Add `backend/app/main.py`: FastAPI app that (a) serves static files at `/`
+- [x] Add `backend/app/main.py`: FastAPI app that (a) serves static files at `/`
       from a `static/` dir, (b) exposes `GET /api/health` returning JSON, and
       (c) serves a hello-world `static/index.html`.
-- [ ] Add a root `Dockerfile` (single container): install uv, install backend
+- [x] Add a root `Dockerfile` (single container): install uv, install backend
       deps, copy backend, expose port. No frontend build yet.
-- [ ] Add `docker-compose.yml` (or compose spec) to build/run the container and
+- [x] Add `docker-compose.yml` (or compose spec) to build/run the container and
       map the local port; load `.env` (OPENROUTER_API_KEY) into the container.
-- [ ] Add OS-specific start/stop scripts in `scripts/`:
-      - [ ] `start.sh` / `stop.sh` (Mac + Linux)
-      - [ ] `start.bat` / `stop.bat` (Windows cmd)
-      - [ ] `start.ps1` / `stop.ps1` (Windows PowerShell)
-- [ ] Update `backend/AGENTS.md` and `scripts/AGENTS.md` with what was built.
+- [x] Add OS-specific start/stop scripts in `scripts/`:
+      - [x] `start.sh` / `stop.sh` (Mac + Linux)
+      - [x] `start.bat` / `stop.bat` (Windows cmd)
+      - [x] `start.ps1` / `stop.ps1` (Windows PowerShell)
+- [x] Update `backend/AGENTS.md` and `scripts/AGENTS.md` with what was built.
 
 Tests:
-- [ ] Backend unit test: `GET /api/health` returns 200 and expected JSON
-      (pytest + httpx ASGITransport).
-- [ ] Manual: run start script, open `/` to see hello-world HTML, and
+- [x] Backend unit test: `GET /api/health` returns 200 and expected JSON
+      (pytest + FastAPI TestClient).
+- [x] Manual: run start script, open `/` to see hello-world HTML, and
       `/api/health` returns JSON.
 
 Success criteria:
-- [ ] `start.<ext>` launches the container; `/` returns static hello-world HTML.
-- [ ] `/api/health` returns JSON from FastAPI.
-- [ ] `stop.<ext>` cleanly stops and removes the container.
-- [ ] `.env` is loaded (OPENROUTER_API_KEY available to backend), but `.env` is
-      never committed.
+- [x] `start.<ext>` launches the container; `/` returns static hello-world HTML.
+- [x] `/api/health` returns JSON from FastAPI.
+- [x] `stop.<ext>` cleanly stops and removes the container.
+- [x] `.env` is loaded (OPENROUTER_API_KEY available to backend), but `.env` is
+      never committed (`.env.example` provided; key passed via compose env,
+      optional until Part 8).
 
 ---
 

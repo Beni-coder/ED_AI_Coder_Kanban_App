@@ -1,0 +1,15 @@
+services:
+  kanban:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: ed-kanban-app
+    container_name: ed-kanban-app
+    ports:
+      - "8000:8000"
+    # OPENROUTER_API_KEY is resolved from the host environment (or a local
+    # .env file in the project root). It is optional for Part 2 scaffolding and
+    # required for Part 8 (AI).
+    environment:
+      OPENROUTER_API_KEY: ${OPENROUTER_API_KEY:-}
+    restart: unless-stopped
