@@ -14,7 +14,7 @@ const bodyFont = Manrope({
 
 export const metadata: Metadata = {
   title: "Kanban Studio",
-  description: "A focused, single-board kanban workspace.",
+  description: "Un espace de travail Kanban concentre sur un seul tableau.",
 };
 
 export default function RootLayout({
@@ -23,7 +23,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
+    <html lang="fr">
       <body className={`${displayFont.variable} ${bodyFont.variable}`}>
         {children}
       </body>

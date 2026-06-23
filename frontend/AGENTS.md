@@ -1,9 +1,10 @@
 # Frontend (existing demo code)
 
-This directory holds the **frontend-only demo** of the Kanban app. It is not yet
-wired to a backend or Docker; that comes in later parts of docs/PLAN.md. It is a
-single-board Kanban with drag-and-drop, column rename, and add/remove cards, all
-in-memory.
+This directory holds the Kanban frontend. As of Part 3 it is configured for
+static export and served by the FastAPI backend (single Docker container). It
+is a single-board Kanban with drag-and-drop, column rename, and add/remove
+cards. All UI copy is in French (with proper diacritics). State is still
+in-memory; backend persistence comes in Part 7.
 
 ## Stack
 
@@ -29,7 +30,8 @@ in-memory.
 
 ```
 frontend/
-  next.config.ts          # Next config (no static export yet; added in Part 3)
+  next.config.ts          # Static export configured: output: "export",
+                          # images.unoptimized: true (Part 3)
   package.json
   tsconfig.json           # path alias "@/*" -> src/*
   postcss.config.mjs
@@ -96,11 +98,16 @@ plus `--surface`, `--surface-strong`, `--stroke`, `--shadow`.
 
 ## Known changes needed in later parts
 
-- UI language: currently English (e.g. `lang="en"`, "Add a card", "Remove");
-  must be translated to French (Part 3 onward).
-- Static export: `next.config.ts` needs `output: "export"` for FastAPI serving
-  (Part 3).
 - Auth gate: add login flow (Part 4).
 - Persistence: replace `initialData`/local state with backend API calls
   (Part 7).
 - AI sidebar: new chat component wired to `/api/ai/chat` (Part 10).
+
+## Static export + serving (Part 3)
+
+- `next.config.ts` sets `output: "export"` and `images: { unoptimized: true }`.
+  `next build` emits `frontend/out/`, which the Docker image copies into
+  `backend/static/` and FastAPI serves at `/` (see `backend/AGENTS.md`).
+- All user-facing strings are French (e.g. `lang="fr"`, "Ajouter une carte",
+  "Retirer", "Titre de la colonne", "Déposer une carte ici"). Unit and e2e
+  test selectors were updated to match these French strings.

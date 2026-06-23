@@ -17,20 +17,30 @@ backend/
   uv.lock                # lockfile (kept in sync; used by Docker with --frozen)
   app/
     __init__.py
-    main.py              # FastAPI app: GET /api/health, serves static at /
-  static/
-    index.html           # hello-world page (French); replaced by the NextJS
-                         # static export from Part 3 onward
+    main.py              # FastAPI app: GET /api/health, serves the built
+                         # NextJS static export at / via a catch-all SPA route
+  static/                # NOT committed; populated at image build time with the
+                         # NextJS export (frontend/out/). Empty locally.
   tests/
     __init__.py
-    test_health.py       # /api/health + / tests
+    test_health.py       # /api/health, /, static asset, SPA fallback tests
 ```
 
-## API (Part 2 scope)
+## API (Part 3 scope)
 
 - `GET /api/health` -> `{"status": "ok"}`.
-- `GET /` -> serves `static/index.html`.
-- `/static/*` mounted via `StaticFiles`.
+- `GET /` -> serves `static/index.html` (the built NextJS app).
+- `GET /{full_path:path}` -> serves a real static asset (e.g. `_next/static/*`,
+  favicon) if it exists under `static/` **and** resolves inside `STATIC_DIR`
+  (path traversal via `..` is rejected, falling back to `index.html`),
+  otherwise falls back to `index.html` so client-side SPA routes resolve.
+  Hashed `_next/static/*` assets are sent with an immutable `Cache-Control`;
+  everything else (incl. `index.html`) is `no-cache`.
+
+The static dir is only populated inside the Docker image (the frontend build
+copies `frontend/out/` into `backend/static`). For local tests, `test_health.py`
+points the module-level `STATIC_DIR`/`INDEX_FILE` at a temp dir with a stub
+`index.html`, so serving logic is testable without a built frontend.
 
 ## Run / test locally (no Docker)
 

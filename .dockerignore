@@ -1,0 +1,20 @@
+# Keep the Docker build context lean and avoid copying local build artifacts,
+# dependency dirs, and secrets into the image.
+
+**/.git
+**/node_modules
+**/.next
+**/out
+**/coverage
+**/__pycache__
+**/.venv
+**/.pytest_cache
+**/.ruff_cache
+**/.mypy_cache
+
+# The static dir is populated from the frontend build inside the image; never
+# copy a locally built/empty one.
+backend/static
+
+# Secrets
+.env

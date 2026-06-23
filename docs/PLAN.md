@@ -83,24 +83,54 @@ Static-build the existing NextJS frontend and serve it from FastAPI at `/`, so
 the demo Kanban board is shown. Comprehensive unit + integration tests.
 
 Substeps:
-- [ ] Configure NextJS for static export (`output: "export"` in
+- [x] Configure NextJS for static export (`output: "export"` in
       `frontend/next.config.ts`) and set `images: { unoptimized: true }`.
 - [ ] Build frontend (`next build`) producing `frontend/out/`.
-- [ ] Update Dockerfile: add a Node build stage that builds the frontend and
+      (Code/config ready; local build blocked by an environment issue, see
+      "Verification status" below. The Docker build performs this step.)
+- [x] Update Dockerfile: add a Node build stage that builds the frontend and
       copies `out/` into the backend's static dir.
-- [ ] Point FastAPI static mount at the built `out/` directory.
-- [ ] Verify SPA routing / deep links work under the static server (single-page,
-      so a catch-all or `200.html` if needed).
-- [ ] Ensure existing Vitest unit tests + Playwright e2e still pass.
+- [x] Point FastAPI static mount at the built `out/` directory (served via a
+      catch-all SPA route in `backend/app/main.py`).
+- [x] Verify SPA routing / deep links work under the static server (catch-all
+      falls back to `index.html`; covered by `backend/tests/test_health.py`).
+- [x] Translate all UI strings to French (proper diacritics); update unit and
+      e2e selectors to match.
 
 Tests:
-- [ ] Frontend unit tests (Vitest): keep `kanban.test.ts`, `KanbanBoard.test.tsx`
-      green; add tests for any new wiring.
-- [ ] Frontend e2e (Playwright): board renders with 5 columns, cards present.
-- [ ] Integration: running container serves the Kanban at `/`.
+- [ ] Frontend unit tests (Vitest): `kanban.test.ts`, `KanbanBoard.test.tsx`
+      green; selectors updated to French. (Blocked locally, see below.)
+- [ ] Frontend e2e (Playwright): selectors updated to French.
+- [x] Backend: `backend/tests/test_health.py` covers `/api/health`, `/`, static
+      asset serving, and SPA fallback.
+
+Verification status (root cause, with evidence):
+- The Part 3 implementation is complete (config, Dockerfile, FastAPI serving,
+  French UI, updated tests).
+- Local automated verification could NOT be run in this session: `npm ci` /
+  `npm install` deterministically deadlock on this Windows host during npm's
+  final `reify` (extraction) phase. Proven across seven variants
+  (`--prefer-offline`, `--ignore-scripts`, single-socket `maxsockets=1`,
+  `--fetch-timeout`, verbose logging, patient 12-min waits): the run streams
+  cache hits, emits the `whatwg-encoding` deprecation warning, then extracts
+  exactly 399 of ~645 packages and hangs there indefinitely (verified stable at
+  399 dirs after a 12-minute wait with an otherwise-idle, responsive system).
+  The npm cache and registry are healthy (registry tarballs fetch in <1s via
+  direct HTTP; no non-registry URLs in the lockfile), so this is an npm/arborist
+  deadlock on this host, not a network or code problem. The repo's
+  `node_modules`/lockfile were already in a broken mid-install state at the
+  start of this session, so no previously-working local install was lost.
+- Docker Desktop is installed but its daemon was not responsive in this
+  session, so the container build (the canonical verifier, which runs
+  `npm ci` under Linux) could not be used either.
+- To verify once the host is healthy, run from the project root:
+  `docker compose build && docker compose up`, then open `http://localhost:8000/`
+  (Kanban board renders), and `http://localhost:8000/api/health` (`{"status":"ok"}`).
+  Frontend-only: in `frontend/`, `npm ci && npm run lint && npm run test:unit &&
+  npm run build` (emits `out/`).
 
 Success criteria:
-- [ ] `next build` succeeds and emits `out/`.
+- [ ] `next build` succeeds and emits `out/`. (Pending local/Docker verification.)
 - [ ] Visiting `/` in the running container shows the demo Kanban board.
 - [ ] All frontend unit + e2e tests pass.
 

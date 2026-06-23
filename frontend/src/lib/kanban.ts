@@ -18,55 +18,60 @@ export type BoardData = {
 export const initialData: BoardData = {
   columns: [
     { id: "col-backlog", title: "Backlog", cardIds: ["card-1", "card-2"] },
-    { id: "col-discovery", title: "Discovery", cardIds: ["card-3"] },
+    { id: "col-discovery", title: "Découverte", cardIds: ["card-3"] },
     {
       id: "col-progress",
-      title: "In Progress",
+      title: "En cours",
       cardIds: ["card-4", "card-5"],
     },
-    { id: "col-review", title: "Review", cardIds: ["card-6"] },
-    { id: "col-done", title: "Done", cardIds: ["card-7", "card-8"] },
+    { id: "col-review", title: "Révision", cardIds: ["card-6"] },
+    { id: "col-done", title: "Terminé", cardIds: ["card-7", "card-8"] },
   ],
   cards: {
     "card-1": {
       id: "card-1",
-      title: "Align roadmap themes",
-      details: "Draft quarterly themes with impact statements and metrics.",
+      title: "Aligner les thèmes de la feuille de route",
+      details:
+        "Rédiger les thèmes trimestriels avec les impacts et les indicateurs.",
     },
     "card-2": {
       id: "card-2",
-      title: "Gather customer signals",
-      details: "Review support tags, sales notes, and churn feedback.",
+      title: "Recueillir les signaux clients",
+      details:
+        "Examiner les étiquettes du support, les notes commerciales et les retours d'attrition.",
     },
     "card-3": {
       id: "card-3",
-      title: "Prototype analytics view",
-      details: "Sketch initial dashboard layout and key drill-downs.",
+      title: "Prototyper la vue analytique",
+      details:
+        "Esquisser la mise en page du tableau de bord et les principales explorations.",
     },
     "card-4": {
       id: "card-4",
-      title: "Refine status language",
-      details: "Standardize column labels and tone across the board.",
+      title: "Affiner le vocabulaire des statuts",
+      details:
+        "Harmoniser les libellés des colonnes et le ton sur l'ensemble du tableau.",
     },
     "card-5": {
       id: "card-5",
-      title: "Design card layout",
-      details: "Add hierarchy and spacing for scanning dense lists.",
+      title: "Designer la mise en page des cartes",
+      details:
+        "Ajouter de la hiérarchie et de l'espacement pour parcourir les listes denses.",
     },
     "card-6": {
       id: "card-6",
-      title: "QA micro-interactions",
-      details: "Verify hover, focus, and loading states.",
+      title: "QA des micro-interactions",
+      details: "Vérifier les états de survol, de focus et de chargement.",
     },
     "card-7": {
       id: "card-7",
-      title: "Ship marketing page",
-      details: "Final copy approved and asset pack delivered.",
+      title: "Livrer la page marketing",
+      details: "Texte final validé et pack de ressources livré.",
     },
     "card-8": {
       id: "card-8",
-      title: "Close onboarding sprint",
-      details: "Document release notes and share internally.",
+      title: "Clôturer le sprint d'intégration",
+      details: "Documenter les notes de version et partager en interne.",
     },
   },
 };

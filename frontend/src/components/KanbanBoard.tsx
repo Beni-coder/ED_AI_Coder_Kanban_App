@@ -60,7 +60,7 @@ export const KanbanBoard = () => {
       ...prev,
       cards: {
         ...prev.cards,
-        [id]: { id, title, details: details || "No details yet." },
+        [id]: { id, title, details: details || "Aucun détail pour le moment." },
       },
       columns: prev.columns.map((column) =>
         column.id === columnId
@@ -101,14 +101,15 @@ export const KanbanBoard = () => {
           <div className="flex flex-wrap items-start justify-between gap-6">
             <div>
               <p className="text-xs font-semibold uppercase tracking-[0.35em] text-[var(--gray-text)]">
-                Single Board Kanban
+                Kanban à tableau unique
               </p>
               <h1 className="mt-3 font-display text-4xl font-semibold text-[var(--navy-dark)]">
                 Kanban Studio
               </h1>
               <p className="mt-3 max-w-xl text-sm leading-6 text-[var(--gray-text)]">
-                Keep momentum visible. Rename columns, drag cards between stages,
-                and capture quick notes without getting buried in settings.
+                Gardez votre élan visible. Renommez les colonnes, déplacez les
+                cartes entre les étapes et capturez des notes rapides sans vous
+                noyer dans les réglages.
               </p>
             </div>
             <div className="rounded-2xl border border-[var(--stroke)] bg-[var(--surface)] px-5 py-4">
@@ -116,7 +117,7 @@ export const KanbanBoard = () => {
                 Focus
               </p>
               <p className="mt-2 text-lg font-semibold text-[var(--primary-blue)]">
-                One board. Five columns. Zero clutter.
+                Un tableau. Cinq colonnes. Zéro encombrement.
               </p>
             </div>
           </div>
